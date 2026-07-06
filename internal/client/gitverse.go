@@ -35,6 +35,29 @@ type gitVerseClient struct {
 	client *gitverse.Client
 }
 
+type gitVerseLoggingTransport struct {
+	base http.RoundTripper
+}
+
+func (t gitVerseLoggingTransport) RoundTrip(req *http.Request) (*http.Response, error) {
+	log.WithField("method", req.Method).
+		WithField("url", req.URL.String()).
+		Debug("GitVerse API request")
+	resp, err := t.base.RoundTrip(req)
+	if err != nil {
+		log.WithField("method", req.Method).
+			WithField("url", req.URL.String()).
+			WithError(err).
+			Debug("GitVerse API request failed")
+		return nil, err
+	}
+	log.WithField("method", req.Method).
+		WithField("url", req.URL.String()).
+		WithField("status", resp.StatusCode).
+		Debug("GitVerse API response")
+	return resp, nil
+}
+
 func newGitVerse(ctx *context.Context, token string) (*gitVerseClient, error) {
 	apiURL, err := tmpl.New(ctx).Apply(ctx.Config.GitVerseURLs.API)
 	if err != nil {
@@ -53,13 +76,15 @@ func newGitVerse(ctx *context.Context, token string) (*gitVerseClient, error) {
 		//nolint:gosec
 		InsecureSkipVerify: ctx.Config.GitVerseURLs.SkipTLSVerify,
 	}
+	var rt http.RoundTripper = transport
+	rt = gitVerseLoggingTransport{base: rt}
 
 	return &gitVerseClient{
 		client: gitverse.NewClient(gitverse.ClientConfig{
 			BaseURL: apiURL,
 			Token:   token,
 			HTTPClient: &http.Client{
-				Transport: transport,
+				Transport: rt,
 				Timeout:   gitverse.DefaultTimeout,
 			},
 		}),
