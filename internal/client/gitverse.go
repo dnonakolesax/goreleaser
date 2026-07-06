@@ -210,7 +210,7 @@ func (c *gitVerseClient) CreateRelease(ctx *context.Context, body string) (strin
 		}
 	}
 
-	draft := true
+	draft := ctx.Config.Release.Draft
 	if gitVerseIsNotFound(err) {
 		release, err = gitVerseDo(ctx, func() (gitverse.Release, error) {
 			return c.client.CreateReleases(ctx, repo.Owner, repo.Name, gitverse.CreateReleaseParams{
@@ -251,17 +251,9 @@ func (c *gitVerseClient) CreateRelease(ctx *context.Context, body string) (strin
 }
 
 func (c *gitVerseClient) PublishRelease(ctx *context.Context, releaseID string) error {
-	if ctx.Config.Release.Draft {
-		return nil
-	}
-	repo := gitVerseRepo(ctx)
-	draft := false
-	_, err := gitVerseDo(ctx, func() (gitverse.Release, error) {
-		return c.client.UpdateReleases(ctx, repo.Owner, repo.Name, releaseID, gitverse.UpdateReleaseParams{
-			Draft: &draft,
-		})
-	})
-	return err
+	// GitVerse can upload assets to the release directly; unlike GitHub we do
+	// not need to create a temporary draft and publish it afterwards.
+	return nil
 }
 
 func (c *gitVerseClient) ReleaseURLTemplate(ctx *context.Context) (string, error) {

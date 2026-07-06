@@ -37,7 +37,7 @@ func TestGitVerseCreateRelease(t *testing.T) {
 			require.NoError(t, json.NewDecoder(r.Body).Decode(&body))
 			require.Equal(t, "v1.0.0", body["tag_name"])
 			require.Equal(t, "v1.0.0", body["name"])
-			require.Equal(t, true, body["draft"])
+			require.Equal(t, false, body["draft"])
 			fmt.Fprint(w, `{"id":42,"html_url":"https://gitverse.ru/owner/repo/releases/tag/v1.0.0"}`)
 		default:
 			t.Fatalf("unexpected request: %s %s", r.Method, r.URL.Path)
@@ -56,6 +56,22 @@ func TestGitVerseCreateRelease(t *testing.T) {
 	releaseID, err := client.CreateRelease(ctx, "body")
 	require.NoError(t, err)
 	require.Equal(t, "42", releaseID)
+}
+
+func TestGitVersePublishReleaseIsNoop(t *testing.T) {
+	t.Parallel()
+	srv := fakeGitVerse(t, func(_ http.ResponseWriter, r *http.Request) {
+		t.Fatalf("unexpected request: %s %s", r.Method, r.URL.Path)
+	})
+	ctx := testctx.WrapWithCfg(t.Context(), config.Project{
+		GitVerseURLs: config.GitVerseURLs{API: srv.URL},
+		Release: config.Release{
+			GitVerse: config.Repo{Owner: "owner", Name: "repo"},
+		},
+	}, testctx.GitVerseTokenType)
+	client, err := newGitVerse(ctx, ctx.Token)
+	require.NoError(t, err)
+	require.NoError(t, client.PublishRelease(ctx, "42"))
 }
 
 func TestGitVerseUpload(t *testing.T) {
