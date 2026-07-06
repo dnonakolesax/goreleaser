@@ -1,6 +1,7 @@
 package client
 
 import (
+	"bytes"
 	"crypto/tls"
 	"encoding/base64"
 	"encoding/json"
@@ -55,6 +56,23 @@ func (t gitVerseLoggingTransport) RoundTrip(req *http.Request) (*http.Response, 
 		WithField("url", req.URL.String()).
 		WithField("status", resp.StatusCode).
 		Debug("GitVerse API response")
+	if resp.StatusCode >= http.StatusBadRequest && resp.Body != nil {
+		body, readErr := io.ReadAll(resp.Body)
+		if readErr != nil {
+			log.WithField("method", req.Method).
+				WithField("url", req.URL.String()).
+				WithField("status", resp.StatusCode).
+				WithError(readErr).
+				Debug("GitVerse API error response body read failed")
+		} else {
+			resp.Body = io.NopCloser(bytes.NewReader(body))
+			log.WithField("method", req.Method).
+				WithField("url", req.URL.String()).
+				WithField("status", resp.StatusCode).
+				WithField("body", string(body)).
+				Debug("GitVerse API error response body")
+		}
+	}
 	return resp, nil
 }
 
@@ -310,7 +328,7 @@ func (c *gitVerseClient) Upload(ctx *context.Context, releaseID string, artifact
 			releaseID,
 			url.QueryEscape(artifact.Name),
 		)
-		resp, err := c.client.UploadFile(ctx, path, "attachment", artifact.Name, file)
+		resp, err := c.client.UploadFile(ctx, path, "file", artifact.Name, file)
 		if err != nil {
 			return gitVerseError(err)
 		}
