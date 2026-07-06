@@ -334,7 +334,7 @@ func (c *gitVerseClient) Upload(ctx *context.Context, releaseID string, artifact
 			releaseID,
 			url.QueryEscape(artifact.Name),
 		)
-		resp, err := c.client.UploadFile(ctx, path, "file", artifact.Name, file)
+		resp, err := c.client.UploadFile(ctx, path, "attachment", artifact.Name, file)
 		if err != nil {
 			return gitVerseError(err)
 		}
