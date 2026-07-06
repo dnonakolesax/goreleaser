@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
 	"time"
@@ -313,6 +314,11 @@ func (c *gitVerseClient) ReleaseURLTemplate(ctx *context.Context) (string, error
 }
 
 func (c *gitVerseClient) Upload(ctx *context.Context, releaseID string, artifact *artifact.Artifact) error {
+	if strings.EqualFold(filepath.Ext(artifact.Name), ".json") {
+		log.WithField("name", artifact.Name).
+			Debug("skipping GitVerse JSON artifact upload")
+		return nil
+	}
 	repo := gitVerseRepo(ctx)
 	return retryx.Do(ctx, ctx.Config.Retry, func() error {
 		file, err := os.Open(artifact.Path)
@@ -328,7 +334,7 @@ func (c *gitVerseClient) Upload(ctx *context.Context, releaseID string, artifact
 			releaseID,
 			url.QueryEscape(artifact.Name),
 		)
-		resp, err := c.client.UploadFile(ctx, path, "attachment", artifact.Name, file)
+		resp, err := c.client.UploadFile(ctx, path, "file", artifact.Name, file)
 		if err != nil {
 			return gitVerseError(err)
 		}
