@@ -1,4 +1,4 @@
-module github.com/goreleaser/goreleaser/v2
+module github.com/dnonakolesax/goreleaser/v2
 
 go 1.26.4
 
@@ -45,6 +45,7 @@ require (
 	github.com/stretchr/testify v1.11.1
 	github.com/ulikunitz/xz v0.5.15
 	gitlab.com/gitlab-org/api/client-go v1.46.0
+	gitverse.ru/onreza/gitverse-sdk/packages/sdk-go v1.2.1
 	go.yaml.in/yaml/v3 v3.0.4
 	gocloud.dev v0.46.0
 	golang.org/x/crypto v0.53.0

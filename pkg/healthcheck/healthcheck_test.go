@@ -3,17 +3,17 @@ package healthcheck
 import (
 	"testing"
 
-	"github.com/goreleaser/goreleaser/v2/internal/testctx"
-	"github.com/goreleaser/goreleaser/v2/pkg/config"
+	"github.com/dnonakolesax/goreleaser/v2/internal/testctx"
+	"github.com/dnonakolesax/goreleaser/v2/pkg/config"
 	"github.com/stretchr/testify/require"
 
 	// langs to init.
-	_ "github.com/goreleaser/goreleaser/v2/internal/builders/bun"
-	_ "github.com/goreleaser/goreleaser/v2/internal/builders/deno"
-	_ "github.com/goreleaser/goreleaser/v2/internal/builders/golang"
-	_ "github.com/goreleaser/goreleaser/v2/internal/builders/node"
-	_ "github.com/goreleaser/goreleaser/v2/internal/builders/rust"
-	_ "github.com/goreleaser/goreleaser/v2/internal/builders/zig"
+	_ "github.com/dnonakolesax/goreleaser/v2/internal/builders/bun"
+	_ "github.com/dnonakolesax/goreleaser/v2/internal/builders/deno"
+	_ "github.com/dnonakolesax/goreleaser/v2/internal/builders/golang"
+	_ "github.com/dnonakolesax/goreleaser/v2/internal/builders/node"
+	_ "github.com/dnonakolesax/goreleaser/v2/internal/builders/rust"
+	_ "github.com/dnonakolesax/goreleaser/v2/internal/builders/zig"
 )
 
 func TestSystemDependencies(t *testing.T) {

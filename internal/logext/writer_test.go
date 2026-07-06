@@ -7,7 +7,7 @@ import (
 	"testing"
 
 	"github.com/caarlos0/log"
-	"github.com/goreleaser/goreleaser/v2/internal/golden"
+	"github.com/dnonakolesax/goreleaser/v2/internal/golden"
 	"github.com/stretchr/testify/require"
 )
 

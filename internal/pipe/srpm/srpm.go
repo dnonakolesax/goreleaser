@@ -10,10 +10,10 @@ import (
 	"time"
 
 	"github.com/caarlos0/log"
-	"github.com/goreleaser/goreleaser/v2/internal/artifact"
-	"github.com/goreleaser/goreleaser/v2/internal/skips"
-	"github.com/goreleaser/goreleaser/v2/internal/tmpl"
-	"github.com/goreleaser/goreleaser/v2/pkg/context"
+	"github.com/dnonakolesax/goreleaser/v2/internal/artifact"
+	"github.com/dnonakolesax/goreleaser/v2/internal/skips"
+	"github.com/dnonakolesax/goreleaser/v2/internal/tmpl"
+	"github.com/dnonakolesax/goreleaser/v2/pkg/context"
 	"github.com/goreleaser/nfpm/v2"
 	"github.com/goreleaser/nfpm/v2/files"
 

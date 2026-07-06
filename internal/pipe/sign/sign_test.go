@@ -12,15 +12,15 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/goreleaser/goreleaser/v2/internal/artifact"
-	"github.com/goreleaser/goreleaser/v2/internal/gio"
-	"github.com/goreleaser/goreleaser/v2/internal/git"
-	"github.com/goreleaser/goreleaser/v2/internal/skips"
-	"github.com/goreleaser/goreleaser/v2/internal/testctx"
-	"github.com/goreleaser/goreleaser/v2/internal/testlib"
-	"github.com/goreleaser/goreleaser/v2/internal/tmpl"
-	"github.com/goreleaser/goreleaser/v2/pkg/config"
-	"github.com/goreleaser/goreleaser/v2/pkg/context"
+	"github.com/dnonakolesax/goreleaser/v2/internal/artifact"
+	"github.com/dnonakolesax/goreleaser/v2/internal/gio"
+	"github.com/dnonakolesax/goreleaser/v2/internal/git"
+	"github.com/dnonakolesax/goreleaser/v2/internal/skips"
+	"github.com/dnonakolesax/goreleaser/v2/internal/testctx"
+	"github.com/dnonakolesax/goreleaser/v2/internal/testlib"
+	"github.com/dnonakolesax/goreleaser/v2/internal/tmpl"
+	"github.com/dnonakolesax/goreleaser/v2/pkg/config"
+	"github.com/dnonakolesax/goreleaser/v2/pkg/context"
 	"github.com/stretchr/testify/require"
 )
 

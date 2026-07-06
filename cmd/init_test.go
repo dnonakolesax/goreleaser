@@ -6,10 +6,10 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/goreleaser/goreleaser/v2/internal/pipe/defaults"
-	"github.com/goreleaser/goreleaser/v2/internal/static"
-	"github.com/goreleaser/goreleaser/v2/internal/testctx"
-	"github.com/goreleaser/goreleaser/v2/pkg/config"
+	"github.com/dnonakolesax/goreleaser/v2/internal/pipe/defaults"
+	"github.com/dnonakolesax/goreleaser/v2/internal/static"
+	"github.com/dnonakolesax/goreleaser/v2/internal/testctx"
+	"github.com/dnonakolesax/goreleaser/v2/pkg/config"
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/require"
 )

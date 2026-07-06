@@ -6,12 +6,12 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/goreleaser/goreleaser/v2/internal/artifact"
-	"github.com/goreleaser/goreleaser/v2/internal/client"
-	"github.com/goreleaser/goreleaser/v2/internal/testctx"
-	"github.com/goreleaser/goreleaser/v2/internal/testlib"
-	"github.com/goreleaser/goreleaser/v2/pkg/config"
-	"github.com/goreleaser/goreleaser/v2/pkg/context"
+	"github.com/dnonakolesax/goreleaser/v2/internal/artifact"
+	"github.com/dnonakolesax/goreleaser/v2/internal/client"
+	"github.com/dnonakolesax/goreleaser/v2/internal/testctx"
+	"github.com/dnonakolesax/goreleaser/v2/internal/testlib"
+	"github.com/dnonakolesax/goreleaser/v2/pkg/config"
+	"github.com/dnonakolesax/goreleaser/v2/pkg/context"
 	"github.com/stretchr/testify/require"
 )
 
@@ -43,6 +43,14 @@ func TestReleaseRepo(t *testing.T) {
 			},
 		}, testctx.GiteaTokenType)
 		require.Equal(t, "gt-owner/gt-repo", releaseRepo(ctx).String())
+	})
+	t.Run("gitverse", func(t *testing.T) {
+		ctx := testctx.WrapWithCfg(t.Context(), config.Project{
+			Release: config.Release{
+				GitVerse: config.Repo{Owner: "gv-owner", Name: "gv-repo"},
+			},
+		}, testctx.GitVerseTokenType)
+		require.Equal(t, "gv-owner/gv-repo", releaseRepo(ctx).String())
 	})
 }
 

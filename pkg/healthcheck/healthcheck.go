@@ -5,16 +5,16 @@ package healthcheck
 import (
 	"fmt"
 
-	"github.com/goreleaser/goreleaser/v2/internal/pipe/chocolatey"
-	"github.com/goreleaser/goreleaser/v2/internal/pipe/docker"
-	dockerv2 "github.com/goreleaser/goreleaser/v2/internal/pipe/docker/v2"
-	"github.com/goreleaser/goreleaser/v2/internal/pipe/flatpak"
-	"github.com/goreleaser/goreleaser/v2/internal/pipe/nix"
-	"github.com/goreleaser/goreleaser/v2/internal/pipe/sbom"
-	"github.com/goreleaser/goreleaser/v2/internal/pipe/sign"
-	"github.com/goreleaser/goreleaser/v2/internal/pipe/snapcraft"
-	"github.com/goreleaser/goreleaser/v2/pkg/build"
-	"github.com/goreleaser/goreleaser/v2/pkg/context"
+	"github.com/dnonakolesax/goreleaser/v2/internal/pipe/chocolatey"
+	"github.com/dnonakolesax/goreleaser/v2/internal/pipe/docker"
+	dockerv2 "github.com/dnonakolesax/goreleaser/v2/internal/pipe/docker/v2"
+	"github.com/dnonakolesax/goreleaser/v2/internal/pipe/flatpak"
+	"github.com/dnonakolesax/goreleaser/v2/internal/pipe/nix"
+	"github.com/dnonakolesax/goreleaser/v2/internal/pipe/sbom"
+	"github.com/dnonakolesax/goreleaser/v2/internal/pipe/sign"
+	"github.com/dnonakolesax/goreleaser/v2/internal/pipe/snapcraft"
+	"github.com/dnonakolesax/goreleaser/v2/pkg/build"
+	"github.com/dnonakolesax/goreleaser/v2/pkg/context"
 )
 
 // HealthChecker should be implemented by pipes that want checks.

@@ -8,13 +8,13 @@ import (
 	"path/filepath"
 
 	"github.com/caarlos0/log"
-	"github.com/goreleaser/goreleaser/v2/internal/archivefiles"
-	"github.com/goreleaser/goreleaser/v2/internal/artifact"
-	"github.com/goreleaser/goreleaser/v2/internal/gio"
-	"github.com/goreleaser/goreleaser/v2/internal/git"
-	"github.com/goreleaser/goreleaser/v2/internal/tmpl"
-	"github.com/goreleaser/goreleaser/v2/pkg/archive"
-	"github.com/goreleaser/goreleaser/v2/pkg/context"
+	"github.com/dnonakolesax/goreleaser/v2/internal/archivefiles"
+	"github.com/dnonakolesax/goreleaser/v2/internal/artifact"
+	"github.com/dnonakolesax/goreleaser/v2/internal/gio"
+	"github.com/dnonakolesax/goreleaser/v2/internal/git"
+	"github.com/dnonakolesax/goreleaser/v2/internal/tmpl"
+	"github.com/dnonakolesax/goreleaser/v2/pkg/archive"
+	"github.com/dnonakolesax/goreleaser/v2/pkg/context"
 )
 
 // Pipe for source archive.

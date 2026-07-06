@@ -11,11 +11,11 @@ import (
 
 	stdctx "context"
 
-	"github.com/goreleaser/goreleaser/v2/internal/artifact"
-	"github.com/goreleaser/goreleaser/v2/internal/testctx"
-	"github.com/goreleaser/goreleaser/v2/internal/testlib"
-	"github.com/goreleaser/goreleaser/v2/pkg/config"
-	"github.com/goreleaser/goreleaser/v2/pkg/context"
+	"github.com/dnonakolesax/goreleaser/v2/internal/artifact"
+	"github.com/dnonakolesax/goreleaser/v2/internal/testctx"
+	"github.com/dnonakolesax/goreleaser/v2/internal/testlib"
+	"github.com/dnonakolesax/goreleaser/v2/pkg/config"
+	"github.com/dnonakolesax/goreleaser/v2/pkg/context"
 	"github.com/ory/dockertest/v3"
 	"github.com/ory/dockertest/v3/docker"
 	"github.com/stretchr/testify/require"

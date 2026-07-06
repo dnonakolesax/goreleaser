@@ -6,7 +6,7 @@ import (
 	_ "embed"
 
 	goversion "github.com/caarlos0/go-version"
-	"github.com/goreleaser/goreleaser/v2/cmd"
+	"github.com/dnonakolesax/goreleaser/v2/cmd"
 )
 
 //nolint:gochecknoglobals

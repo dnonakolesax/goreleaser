@@ -23,7 +23,7 @@ import (
 	"sync"
 
 	"github.com/caarlos0/log"
-	"github.com/goreleaser/goreleaser/v2/internal/experimental"
+	"github.com/dnonakolesax/goreleaser/v2/internal/experimental"
 	"golang.org/x/crypto/blake2b"
 	"golang.org/x/crypto/blake2s"
 	"lukechampine.com/blake3"

@@ -7,9 +7,9 @@ import (
 	"strings"
 
 	"github.com/caarlos0/log"
-	"github.com/goreleaser/goreleaser/v2/internal/packagejson"
-	"github.com/goreleaser/goreleaser/v2/internal/pyproject"
-	"github.com/goreleaser/goreleaser/v2/internal/static"
+	"github.com/dnonakolesax/goreleaser/v2/internal/packagejson"
+	"github.com/dnonakolesax/goreleaser/v2/internal/pyproject"
+	"github.com/dnonakolesax/goreleaser/v2/internal/static"
 	"github.com/spf13/cobra"
 )
 

@@ -9,14 +9,14 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/goreleaser/goreleaser/v2/internal/changelog"
-	"github.com/goreleaser/goreleaser/v2/internal/client"
-	"github.com/goreleaser/goreleaser/v2/internal/git"
-	"github.com/goreleaser/goreleaser/v2/internal/golden"
-	"github.com/goreleaser/goreleaser/v2/internal/testctx"
-	"github.com/goreleaser/goreleaser/v2/internal/testlib"
-	"github.com/goreleaser/goreleaser/v2/pkg/config"
-	"github.com/goreleaser/goreleaser/v2/pkg/context"
+	"github.com/dnonakolesax/goreleaser/v2/internal/changelog"
+	"github.com/dnonakolesax/goreleaser/v2/internal/client"
+	"github.com/dnonakolesax/goreleaser/v2/internal/git"
+	"github.com/dnonakolesax/goreleaser/v2/internal/golden"
+	"github.com/dnonakolesax/goreleaser/v2/internal/testctx"
+	"github.com/dnonakolesax/goreleaser/v2/internal/testlib"
+	"github.com/dnonakolesax/goreleaser/v2/pkg/config"
+	"github.com/dnonakolesax/goreleaser/v2/pkg/context"
 	"github.com/stretchr/testify/require"
 )
 

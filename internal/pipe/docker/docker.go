@@ -15,21 +15,21 @@ import (
 	"sync"
 
 	"github.com/caarlos0/log"
-	"github.com/goreleaser/goreleaser/v2/internal/artifact"
-	"github.com/goreleaser/goreleaser/v2/internal/deprecate"
-	"github.com/goreleaser/goreleaser/v2/internal/experimental"
-	"github.com/goreleaser/goreleaser/v2/internal/gerrors"
-	"github.com/goreleaser/goreleaser/v2/internal/gio"
-	"github.com/goreleaser/goreleaser/v2/internal/ids"
-	"github.com/goreleaser/goreleaser/v2/internal/logext"
-	"github.com/goreleaser/goreleaser/v2/internal/pipe"
-	v2 "github.com/goreleaser/goreleaser/v2/internal/pipe/docker/v2"
-	"github.com/goreleaser/goreleaser/v2/internal/retryx"
-	"github.com/goreleaser/goreleaser/v2/internal/semerrgroup"
-	"github.com/goreleaser/goreleaser/v2/internal/skips"
-	"github.com/goreleaser/goreleaser/v2/internal/tmpl"
-	"github.com/goreleaser/goreleaser/v2/pkg/config"
-	"github.com/goreleaser/goreleaser/v2/pkg/context"
+	"github.com/dnonakolesax/goreleaser/v2/internal/artifact"
+	"github.com/dnonakolesax/goreleaser/v2/internal/deprecate"
+	"github.com/dnonakolesax/goreleaser/v2/internal/experimental"
+	"github.com/dnonakolesax/goreleaser/v2/internal/gerrors"
+	"github.com/dnonakolesax/goreleaser/v2/internal/gio"
+	"github.com/dnonakolesax/goreleaser/v2/internal/ids"
+	"github.com/dnonakolesax/goreleaser/v2/internal/logext"
+	"github.com/dnonakolesax/goreleaser/v2/internal/pipe"
+	v2 "github.com/dnonakolesax/goreleaser/v2/internal/pipe/docker/v2"
+	"github.com/dnonakolesax/goreleaser/v2/internal/retryx"
+	"github.com/dnonakolesax/goreleaser/v2/internal/semerrgroup"
+	"github.com/dnonakolesax/goreleaser/v2/internal/skips"
+	"github.com/dnonakolesax/goreleaser/v2/internal/tmpl"
+	"github.com/dnonakolesax/goreleaser/v2/pkg/config"
+	"github.com/dnonakolesax/goreleaser/v2/pkg/context"
 )
 
 const (
@@ -265,7 +265,7 @@ func process(ctx *context.Context, docker config.Docker, artifacts []*artifact.A
 	}
 
 	log.Info("building docker image")
-	if err := dockerBuild(ctx, docker, tmp, images, buildFlags); err != nil {
+	if err := imagers[docker.Use].Build(ctx, tmp, images, buildFlags); err != nil {
 		if isFileNotFoundError(err.Error()) {
 			var files []string
 			_ = filepath.Walk(tmp, func(_ string, info fs.FileInfo, _ error) error {
@@ -312,17 +312,6 @@ files in that dir:
 		})
 	}
 	return nil
-}
-
-func dockerBuild(ctx *context.Context, docker config.Docker, root string, images, buildFlags []string) error {
-	return retryx.Do(
-		ctx,
-		docker.Retry,
-		func() error {
-			return imagers[docker.Use].Build(ctx, root, images, buildFlags)
-		},
-		v2.IsRetriableBuild,
-	)
 }
 
 func isFileNotFoundError(out string) bool {

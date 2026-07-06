@@ -8,11 +8,11 @@ import (
 	"text/template"
 	"time"
 
-	"github.com/goreleaser/goreleaser/v2/internal/artifact"
-	"github.com/goreleaser/goreleaser/v2/internal/testctx"
-	"github.com/goreleaser/goreleaser/v2/pkg/build"
-	"github.com/goreleaser/goreleaser/v2/pkg/config"
-	"github.com/goreleaser/goreleaser/v2/pkg/context"
+	"github.com/dnonakolesax/goreleaser/v2/internal/artifact"
+	"github.com/dnonakolesax/goreleaser/v2/internal/testctx"
+	"github.com/dnonakolesax/goreleaser/v2/pkg/build"
+	"github.com/dnonakolesax/goreleaser/v2/pkg/config"
+	"github.com/dnonakolesax/goreleaser/v2/pkg/context"
 	"github.com/stretchr/testify/require"
 )
 
@@ -46,7 +46,7 @@ func TestWithArtifact(t *testing.T) {
 		testctx.WithSemver(1, 2, 3, ""),
 		testctx.Snapshot,
 		func(ctx *context.Context) {
-			ctx.ModulePath = "github.com/goreleaser/goreleaser/v2"
+			ctx.ModulePath = "github.com/dnonakolesax/goreleaser/v2"
 			ctx.ReleaseNotes = "test release notes"
 			ctx.Date = time.Unix(1678327562, 0)
 			ctx.SingleTarget = true
@@ -73,7 +73,7 @@ func TestWithArtifact(t *testing.T) {
 		"shortcommit":                         "{{.ShortCommit}}",
 		"binary":                              "{{.Binary}}",
 		"proj":                                "{{.ProjectName}}",
-		"github.com/goreleaser/goreleaser/v2": "{{ .ModulePath }}",
+		"github.com/dnonakolesax/goreleaser/v2": "{{ .ModulePath }}",
 		"v2.0.0":                              "{{.Tag | incmajor }}",
 		"2.0.0":                               "{{.Version | incmajor }}",
 		"v1.3.0":                              "{{.Tag | incminor }}",

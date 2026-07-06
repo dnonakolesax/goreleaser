@@ -7,15 +7,15 @@ import (
 	"os"
 
 	"github.com/caarlos0/log"
-	"github.com/goreleaser/goreleaser/v2/internal/artifact"
-	"github.com/goreleaser/goreleaser/v2/internal/client"
-	"github.com/goreleaser/goreleaser/v2/internal/extrafiles"
-	"github.com/goreleaser/goreleaser/v2/internal/git"
-	"github.com/goreleaser/goreleaser/v2/internal/pipe"
-	"github.com/goreleaser/goreleaser/v2/internal/semerrgroup"
-	"github.com/goreleaser/goreleaser/v2/internal/tmpl"
-	"github.com/goreleaser/goreleaser/v2/pkg/config"
-	"github.com/goreleaser/goreleaser/v2/pkg/context"
+	"github.com/dnonakolesax/goreleaser/v2/internal/artifact"
+	"github.com/dnonakolesax/goreleaser/v2/internal/client"
+	"github.com/dnonakolesax/goreleaser/v2/internal/extrafiles"
+	"github.com/dnonakolesax/goreleaser/v2/internal/git"
+	"github.com/dnonakolesax/goreleaser/v2/internal/pipe"
+	"github.com/dnonakolesax/goreleaser/v2/internal/semerrgroup"
+	"github.com/dnonakolesax/goreleaser/v2/internal/tmpl"
+	"github.com/dnonakolesax/goreleaser/v2/pkg/config"
+	"github.com/dnonakolesax/goreleaser/v2/pkg/context"
 )
 
 // ErrMultipleReleases indicates that multiple releases are defined. ATM only one of them is allowed.
@@ -46,6 +46,9 @@ func (p Pipe) Default(ctx *context.Context) error {
 	if ctx.Config.Release.Gitea.String() != "" {
 		numOfReleases++
 	}
+	if ctx.Config.Release.GitVerse.String() != "" {
+		numOfReleases++
+	}
 	if numOfReleases > 1 {
 		return ErrMultipleReleases
 	}
@@ -61,6 +64,10 @@ func (p Pipe) Default(ctx *context.Context) error {
 		}
 	case context.TokenTypeGitea:
 		if err := setupGitea(ctx); err != nil {
+			return err
+		}
+	case context.TokenTypeGitVerse:
+		if err := setupGitVerse(ctx); err != nil {
 			return err
 		}
 	default:
@@ -125,6 +132,8 @@ func releaseRepo(ctx *context.Context) config.Repo {
 		return ctx.Config.Release.GitLab
 	case context.TokenTypeGitea:
 		return ctx.Config.Release.Gitea
+	case context.TokenTypeGitVerse:
+		return ctx.Config.Release.GitVerse
 	default:
 		return ctx.Config.Release.GitHub
 	}

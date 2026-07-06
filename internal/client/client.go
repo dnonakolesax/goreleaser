@@ -7,11 +7,11 @@ import (
 	"fmt"
 
 	"github.com/caarlos0/log"
-	"github.com/goreleaser/goreleaser/v2/internal/artifact"
-	"github.com/goreleaser/goreleaser/v2/internal/changelog"
-	"github.com/goreleaser/goreleaser/v2/internal/tmpl"
-	"github.com/goreleaser/goreleaser/v2/pkg/config"
-	"github.com/goreleaser/goreleaser/v2/pkg/context"
+	"github.com/dnonakolesax/goreleaser/v2/internal/artifact"
+	"github.com/dnonakolesax/goreleaser/v2/internal/changelog"
+	"github.com/dnonakolesax/goreleaser/v2/internal/tmpl"
+	"github.com/dnonakolesax/goreleaser/v2/pkg/config"
+	"github.com/dnonakolesax/goreleaser/v2/pkg/context"
 )
 
 const (
@@ -142,6 +142,8 @@ func newWithToken(ctx *context.Context, token string) (Client, error) {
 		return newGitLab(ctx, token)
 	case context.TokenTypeGitea:
 		return newGitea(ctx, token)
+	case context.TokenTypeGitVerse:
+		return newGitVerse(ctx, token)
 	default:
 		return nil, fmt.Errorf("invalid client token type: %q", ctx.TokenType)
 	}

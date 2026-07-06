@@ -6,11 +6,11 @@ import (
 	"testing"
 
 	"github.com/caarlos0/log"
-	"github.com/goreleaser/goreleaser/v2/internal/gerrors"
-	"github.com/goreleaser/goreleaser/v2/internal/skips"
-	"github.com/goreleaser/goreleaser/v2/internal/testctx"
-	"github.com/goreleaser/goreleaser/v2/internal/testlib"
-	"github.com/goreleaser/goreleaser/v2/pkg/config"
+	"github.com/dnonakolesax/goreleaser/v2/internal/gerrors"
+	"github.com/dnonakolesax/goreleaser/v2/internal/skips"
+	"github.com/dnonakolesax/goreleaser/v2/internal/testctx"
+	"github.com/dnonakolesax/goreleaser/v2/internal/testlib"
+	"github.com/dnonakolesax/goreleaser/v2/pkg/config"
 	"github.com/stretchr/testify/require"
 )
 

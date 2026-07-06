@@ -8,11 +8,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/goreleaser/goreleaser/v2/internal/client"
-	"github.com/goreleaser/goreleaser/v2/internal/middleware/errhandler"
-	"github.com/goreleaser/goreleaser/v2/internal/tmpl"
-	"github.com/goreleaser/goreleaser/v2/pkg/context"
-	"github.com/goreleaser/goreleaser/v2/pkg/defaults"
+	"github.com/dnonakolesax/goreleaser/v2/internal/client"
+	"github.com/dnonakolesax/goreleaser/v2/internal/middleware/errhandler"
+	"github.com/dnonakolesax/goreleaser/v2/internal/tmpl"
+	"github.com/dnonakolesax/goreleaser/v2/pkg/context"
+	"github.com/dnonakolesax/goreleaser/v2/pkg/defaults"
 )
 
 // Pipe that sets the defaults.
@@ -35,6 +35,12 @@ func (Pipe) Run(ctx *context.Context) error {
 		}
 
 		ctx.Config.GiteaURLs.Download = strings.TrimSuffix(strings.ReplaceAll(apiURL, "/api/v1", ""), "/")
+	}
+	if ctx.Config.GitVerseURLs.API == "" {
+		ctx.Config.GitVerseURLs.API = client.DefaultGitVerseAPIURL
+	}
+	if ctx.Config.GitVerseURLs.Download == "" {
+		ctx.Config.GitVerseURLs.Download = client.DefaultGitVerseDownloadURL
 	}
 
 	ctx.Config.Retry.Attempts = cmp.Or(ctx.Config.Retry.Attempts, 10)

@@ -10,9 +10,9 @@ import (
 	"net/http"
 
 	"github.com/caarlos0/log"
-	"github.com/goreleaser/goreleaser/v2/internal/gerrors"
-	"github.com/goreleaser/goreleaser/v2/internal/retryx"
-	"github.com/goreleaser/goreleaser/v2/pkg/context"
+	"github.com/dnonakolesax/goreleaser/v2/internal/gerrors"
+	"github.com/dnonakolesax/goreleaser/v2/internal/retryx"
+	"github.com/dnonakolesax/goreleaser/v2/pkg/context"
 	"golang.org/x/oauth2"
 )
 

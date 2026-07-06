@@ -18,21 +18,21 @@ import (
 
 	"github.com/caarlos0/log"
 	"github.com/goreleaser/go-shellwords"
-	"github.com/goreleaser/goreleaser/v2/internal/artifact"
-	"github.com/goreleaser/goreleaser/v2/internal/deprecate"
-	"github.com/goreleaser/goreleaser/v2/internal/gerrors"
-	"github.com/goreleaser/goreleaser/v2/internal/gio"
-	"github.com/goreleaser/goreleaser/v2/internal/ids"
-	"github.com/goreleaser/goreleaser/v2/internal/logext"
-	"github.com/goreleaser/goreleaser/v2/internal/pipe"
-	"github.com/goreleaser/goreleaser/v2/internal/redact"
-	"github.com/goreleaser/goreleaser/v2/internal/retryx"
-	"github.com/goreleaser/goreleaser/v2/internal/semerrgroup"
-	"github.com/goreleaser/goreleaser/v2/internal/shell"
-	"github.com/goreleaser/goreleaser/v2/internal/skips"
-	"github.com/goreleaser/goreleaser/v2/internal/tmpl"
-	"github.com/goreleaser/goreleaser/v2/pkg/config"
-	"github.com/goreleaser/goreleaser/v2/pkg/context"
+	"github.com/dnonakolesax/goreleaser/v2/internal/artifact"
+	"github.com/dnonakolesax/goreleaser/v2/internal/deprecate"
+	"github.com/dnonakolesax/goreleaser/v2/internal/gerrors"
+	"github.com/dnonakolesax/goreleaser/v2/internal/gio"
+	"github.com/dnonakolesax/goreleaser/v2/internal/ids"
+	"github.com/dnonakolesax/goreleaser/v2/internal/logext"
+	"github.com/dnonakolesax/goreleaser/v2/internal/pipe"
+	"github.com/dnonakolesax/goreleaser/v2/internal/redact"
+	"github.com/dnonakolesax/goreleaser/v2/internal/retryx"
+	"github.com/dnonakolesax/goreleaser/v2/internal/semerrgroup"
+	"github.com/dnonakolesax/goreleaser/v2/internal/shell"
+	"github.com/dnonakolesax/goreleaser/v2/internal/skips"
+	"github.com/dnonakolesax/goreleaser/v2/internal/tmpl"
+	"github.com/dnonakolesax/goreleaser/v2/pkg/config"
+	"github.com/dnonakolesax/goreleaser/v2/pkg/context"
 )
 
 // ExtraPlatforms is the artifact Extra key holding the list of platforms a v2
@@ -279,7 +279,7 @@ func doBuild(ctx *context.Context, d config.DockerV2, wd string, arg []string) (
 			}
 			return nil
 		},
-		IsRetriableBuild,
+		isRetriableManifestCreate,
 	); err != nil {
 		return "", err
 	}
@@ -582,59 +582,11 @@ func tplMapFlags(tpl *tmpl.Template, flag string, m map[string]string) ([]string
 	return result, nil
 }
 
-// IsRetriableBuild reports whether a failed docker build is worth retrying.
-//
-// Besides genuine network errors, docker builds routinely fail for transient
-// reasons a retry can recover from: pulling base images may hit registry rate
-// limits or 5xx responses, and installing packages from other sources (apt,
-// apk, ...) inside RUN steps may hit flaky mirrors or DNS hiccups.
-func IsRetriableBuild(err error) bool {
-	if err == nil {
-		return false
-	}
-	// For build errors we care about the command output, which docker v2 keeps
-	// in the detailed error; v1 embeds it in the error message itself.
-	var out string
+func isRetriableManifestCreate(err error) bool {
 	if de, ok := errors.AsType[gerrors.ErrDetailed](err); ok {
-		out = de.Output()
-	} else {
-		out = err.Error()
+		return strings.Contains(de.Output(), "manifest verification failed for digest")
 	}
-	if retryx.IsNetworkError(errors.New(out)) {
-		return true
-	}
-	out = strings.ToLower(out)
-	return slices.ContainsFunc(retriableBuildOutputs, func(s string) bool {
-		return strings.Contains(out, s)
-	})
-}
-
-// retriableBuildOutputs are lower-cased substrings that, when found in a docker
-// build output, indicate a transient failure worth retrying.
-var retriableBuildOutputs = []string{
-	// base image pulls / registry
-	"manifest verification failed for digest",
-	"toomanyrequests",
-	"too many requests",
-	"failed to do request",
-	"error pulling image",
-	"internal server error",
-	"bad gateway",
-	"service unavailable",
-	"gateway timeout",
-	"gateway time-out",
-	"unexpected eof",
-	// dns / name resolution
-	"temporary failure in name resolution",
-	"temporary failure resolving",
-	"could not resolve",
-	// package managers (apt, apk, yum, dnf, ...)
-	"failed to fetch",
-	"connection timed out",
-	"could not connect to",
-	"unable to connect to",
-	"hash sum mismatch",
-	"temporary error (try again later)",
+	return false
 }
 
 func isFileNotFoundError(out string) bool {

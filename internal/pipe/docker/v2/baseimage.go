@@ -9,7 +9,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/goreleaser/goreleaser/v2/pkg/context"
+	"github.com/dnonakolesax/goreleaser/v2/pkg/context"
 )
 
 // Template fields exposed for base image annotations

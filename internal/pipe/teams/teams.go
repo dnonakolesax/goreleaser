@@ -6,9 +6,9 @@ import (
 	"github.com/atc0005/go-teams-notify/v2/messagecard"
 	"github.com/caarlos0/env/v11"
 	"github.com/caarlos0/log"
-	"github.com/goreleaser/goreleaser/v2/internal/retryx"
-	"github.com/goreleaser/goreleaser/v2/internal/tmpl"
-	"github.com/goreleaser/goreleaser/v2/pkg/context"
+	"github.com/dnonakolesax/goreleaser/v2/internal/retryx"
+	"github.com/dnonakolesax/goreleaser/v2/internal/tmpl"
+	"github.com/dnonakolesax/goreleaser/v2/pkg/context"
 )
 
 const (

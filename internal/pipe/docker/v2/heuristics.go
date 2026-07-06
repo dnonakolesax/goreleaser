@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/caarlos0/log"
-	"github.com/goreleaser/goreleaser/v2/internal/logext"
+	"github.com/dnonakolesax/goreleaser/v2/internal/logext"
 )
 
 var projectRootMarkers = map[string]struct{}{

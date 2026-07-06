@@ -7,9 +7,9 @@ import (
 	"slices"
 
 	"github.com/caarlos0/log"
-	"github.com/goreleaser/goreleaser/v2/internal/gerrors"
-	"github.com/goreleaser/goreleaser/v2/internal/pipe/defaults"
-	"github.com/goreleaser/goreleaser/v2/pkg/context"
+	"github.com/dnonakolesax/goreleaser/v2/internal/gerrors"
+	"github.com/dnonakolesax/goreleaser/v2/internal/pipe/defaults"
+	"github.com/dnonakolesax/goreleaser/v2/pkg/context"
 	"github.com/spf13/cobra"
 )
 

@@ -7,9 +7,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/goreleaser/goreleaser/v2/internal/testctx"
-	"github.com/goreleaser/goreleaser/v2/internal/testlib"
-	"github.com/goreleaser/goreleaser/v2/pkg/config"
+	"github.com/dnonakolesax/goreleaser/v2/internal/testctx"
+	"github.com/dnonakolesax/goreleaser/v2/internal/testlib"
+	"github.com/dnonakolesax/goreleaser/v2/pkg/config"
 	"github.com/stretchr/testify/require"
 )
 
@@ -45,7 +45,7 @@ func TestRun(t *testing.T) {
 	ctx := testctx.Wrap(t.Context())
 	require.NoError(t, Pipe{}.Default(ctx))
 	require.NoError(t, Pipe{}.Run(ctx))
-	require.Equal(t, "github.com/goreleaser/goreleaser/v2", ctx.ModulePath)
+	require.Equal(t, "github.com/dnonakolesax/goreleaser/v2", ctx.ModulePath)
 }
 
 func TestRunGoWork(t *testing.T) {
@@ -84,7 +84,7 @@ func TestRunCustomMod(t *testing.T) {
 
 	require.NoError(t, Pipe{}.Default(ctx))
 	require.NoError(t, Pipe{}.Run(ctx))
-	require.Equal(t, "github.com/goreleaser/goreleaser/v2", ctx.ModulePath)
+	require.Equal(t, "github.com/dnonakolesax/goreleaser/v2", ctx.ModulePath)
 }
 
 func TestCustomEnv(t *testing.T) {

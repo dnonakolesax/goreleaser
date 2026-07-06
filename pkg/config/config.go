@@ -45,6 +45,13 @@ type GiteaURLs struct {
 	SkipTLSVerify bool   `yaml:"skip_tls_verify,omitempty" json:"skip_tls_verify,omitempty"`
 }
 
+// GitVerseURLs holds the URLs to be used when using GitVerse.
+type GitVerseURLs struct {
+	API           string `yaml:"api,omitempty" json:"api,omitempty"`
+	Download      string `yaml:"download,omitempty" json:"download,omitempty"`
+	SkipTLSVerify bool   `yaml:"skip_tls_verify,omitempty" json:"skip_tls_verify,omitempty"`
+}
+
 // Repo represents any kind of repo (github, gitlab, etc).
 // to upload releases into.
 type Repo struct {
@@ -652,6 +659,7 @@ type Release struct {
 	GitHub                 Repo        `yaml:"github,omitempty" json:"github,omitempty"`
 	GitLab                 Repo        `yaml:"gitlab,omitempty" json:"gitlab,omitempty"`
 	Gitea                  Repo        `yaml:"gitea,omitempty" json:"gitea,omitempty"`
+	GitVerse               Repo        `yaml:"gitverse,omitempty" json:"gitverse,omitempty"`
 	Draft                  bool        `yaml:"draft,omitempty" json:"draft,omitempty"`
 	ReplaceExistingDraft   bool        `yaml:"replace_existing_draft,omitempty" json:"replace_existing_draft,omitempty"`
 	UseExistingDraft       bool        `yaml:"use_existing_draft,omitempty" json:"use_existing_draft,omitempty"`
@@ -1257,9 +1265,10 @@ type ChangelogGroup struct {
 // EnvFiles holds paths to files that contains environment variables
 // values like the github token for example.
 type EnvFiles struct {
-	GitHubToken string `yaml:"github_token,omitempty" json:"github_token,omitempty"`
-	GitLabToken string `yaml:"gitlab_token,omitempty" json:"gitlab_token,omitempty"`
-	GiteaToken  string `yaml:"gitea_token,omitempty" json:"gitea_token,omitempty"`
+	GitHubToken   string `yaml:"github_token,omitempty" json:"github_token,omitempty"`
+	GitLabToken   string `yaml:"gitlab_token,omitempty" json:"gitlab_token,omitempty"`
+	GiteaToken    string `yaml:"gitea_token,omitempty" json:"gitea_token,omitempty"`
+	GitVerseToken string `yaml:"gitverse_token,omitempty" json:"gitverse_token,omitempty"`
 }
 
 // Before config.
@@ -1389,7 +1398,7 @@ type Project struct {
 	Retry             Retry             `yaml:"retry,omitempty" json:"retry,omitempty"`
 
 	// force the SCM token to use when multiple are set
-	ForceToken string `yaml:"force_token,omitempty" json:"force_token,omitempty" jsonschema:"enum=github,enum=gitlab,enum=gitea,enum=,default="`
+	ForceToken string `yaml:"force_token,omitempty" json:"force_token,omitempty" jsonschema:"enum=github,enum=gitlab,enum=gitea,enum=gitverse,enum=,default="`
 
 	// should be set if using github enterprise
 	GitHubURLs GitHubURLs `yaml:"github_urls,omitempty" json:"github_urls,omitempty"`
@@ -1399,6 +1408,9 @@ type Project struct {
 
 	// should be set if using Gitea
 	GiteaURLs GiteaURLs `yaml:"gitea_urls,omitempty" json:"gitea_urls,omitempty"`
+
+	// should be set if using GitVerse
+	GitVerseURLs GitVerseURLs `yaml:"gitverse_urls,omitempty" json:"gitverse_urls,omitempty"`
 
 	// Deprecated: use [Project.Casks] instead.
 	Brews []Homebrew `yaml:"brews,omitempty" json:"brews,omitempty" jsonschema:"deprecated=true"`

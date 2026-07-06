@@ -12,15 +12,15 @@ import (
 	"strings"
 
 	"github.com/caarlos0/log"
-	"github.com/goreleaser/goreleaser/v2/internal/logext"
-	"github.com/goreleaser/goreleaser/v2/internal/skips"
-	"github.com/goreleaser/goreleaser/v2/internal/tmpl"
-	"github.com/goreleaser/goreleaser/v2/pkg/context"
+	"github.com/dnonakolesax/goreleaser/v2/internal/logext"
+	"github.com/dnonakolesax/goreleaser/v2/internal/skips"
+	"github.com/dnonakolesax/goreleaser/v2/internal/tmpl"
+	"github.com/dnonakolesax/goreleaser/v2/pkg/context"
 	homedir "github.com/mitchellh/go-homedir"
 )
 
-// ErrMissingToken indicates an error when GITHUB_TOKEN, GITLAB_TOKEN and GITEA_TOKEN are all missing in the environment.
-var ErrMissingToken = errors.New("missing GITHUB_TOKEN, GITLAB_TOKEN and GITEA_TOKEN")
+// ErrMissingToken indicates an error when all SCM tokens are missing in the environment.
+var ErrMissingToken = errors.New("missing GITHUB_TOKEN, GITLAB_TOKEN, GITEA_TOKEN and GITVERSE_TOKEN")
 
 // ErrMultipleTokens indicates that multiple tokens are defined. ATM only one of them if allowed.
 // See https://github.com/goreleaser/goreleaser/pull/809
@@ -50,6 +50,9 @@ func setDefaultTokenFiles(ctx *context.Context) {
 	if env.GiteaToken == "" {
 		env.GiteaToken = "~/.config/goreleaser/gitea_token"
 	}
+	if env.GitVerseToken == "" {
+		env.GitVerseToken = "~/.config/goreleaser/gitverse_token"
+	}
 }
 
 // Run the pipe.
@@ -69,6 +72,7 @@ func (Pipe) Run(ctx *context.Context) error {
 	githubToken, githubTokenErr := loadEnv("GITHUB_TOKEN", ctx.Config.EnvFiles.GitHubToken)
 	gitlabToken, gitlabTokenErr := loadEnv("GITLAB_TOKEN", ctx.Config.EnvFiles.GitLabToken)
 	giteaToken, giteaTokenErr := loadEnv("GITEA_TOKEN", ctx.Config.EnvFiles.GiteaToken)
+	gitverseToken, gitverseTokenErr := loadEnv("GITVERSE_TOKEN", ctx.Config.EnvFiles.GitVerseToken)
 
 	forceToken := ctx.Config.ForceToken
 	if forceToken == "" {
@@ -78,12 +82,19 @@ func (Pipe) Run(ctx *context.Context) error {
 	case "github":
 		gitlabToken = ""
 		giteaToken = ""
+		gitverseToken = ""
 	case "gitlab":
 		githubToken = ""
 		giteaToken = ""
+		gitverseToken = ""
 	case "gitea":
 		githubToken = ""
 		gitlabToken = ""
+		gitverseToken = ""
+	case "gitverse":
+		githubToken = ""
+		gitlabToken = ""
+		giteaToken = ""
 	default:
 		var tokens []string
 		if githubToken != "" {
@@ -95,15 +106,18 @@ func (Pipe) Run(ctx *context.Context) error {
 		if giteaToken != "" {
 			tokens = append(tokens, "GITEA_TOKEN")
 		}
+		if gitverseToken != "" {
+			tokens = append(tokens, "GITVERSE_TOKEN")
+		}
 		if len(tokens) > 1 {
 			return ErrMultipleTokens{tokens}
 		}
 	}
 
-	noTokens := githubToken == "" && gitlabToken == "" && giteaToken == ""
-	noTokenErrs := githubTokenErr == nil && gitlabTokenErr == nil && giteaTokenErr == nil
+	noTokens := githubToken == "" && gitlabToken == "" && giteaToken == "" && gitverseToken == ""
+	noTokenErrs := githubTokenErr == nil && gitlabTokenErr == nil && giteaTokenErr == nil && gitverseTokenErr == nil
 
-	if err := checkErrors(ctx, noTokens, noTokenErrs, gitlabTokenErr, githubTokenErr, giteaTokenErr); err != nil {
+	if err := checkErrors(ctx, noTokens, noTokenErrs, gitlabTokenErr, githubTokenErr, giteaTokenErr, gitverseTokenErr); err != nil {
 		return err
 	}
 
@@ -119,6 +133,12 @@ func (Pipe) Run(ctx *context.Context) error {
 		ctx.Token = giteaToken
 	}
 
+	if gitverseToken != "" {
+		log.Debug("token type: gitverse")
+		ctx.TokenType = context.TokenTypeGitVerse
+		ctx.Token = gitverseToken
+	}
+
 	if githubToken != "" {
 		log.Debug("token type: github")
 		ctx.Token = githubToken
@@ -131,7 +151,7 @@ func (Pipe) Run(ctx *context.Context) error {
 	return nil
 }
 
-func checkErrors(ctx *context.Context, noTokens, noTokenErrs bool, gitlabTokenErr, githubTokenErr, giteaTokenErr error) error {
+func checkErrors(ctx *context.Context, noTokens, noTokenErrs bool, gitlabTokenErr, githubTokenErr, giteaTokenErr, gitverseTokenErr error) error {
 	if ctx.SkipTokenCheck || skips.Any(ctx, skips.Publish) {
 		return nil
 	}
@@ -153,6 +173,9 @@ func checkErrors(ctx *context.Context, noTokens, noTokenErrs bool, gitlabTokenEr
 
 	if giteaTokenErr != nil {
 		return fmt.Errorf("failed to load gitea token: %w", giteaTokenErr)
+	}
+	if gitverseTokenErr != nil {
+		return fmt.Errorf("failed to load gitverse token: %w", gitverseTokenErr)
 	}
 	return nil
 }

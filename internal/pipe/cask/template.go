@@ -7,7 +7,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/goreleaser/goreleaser/v2/pkg/config"
+	"github.com/dnonakolesax/goreleaser/v2/pkg/config"
 )
 
 type templateData struct {

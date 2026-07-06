@@ -6,9 +6,9 @@ import (
 
 	stdctx "context"
 
-	"github.com/goreleaser/goreleaser/v2/internal/skips"
-	"github.com/goreleaser/goreleaser/v2/pkg/config"
-	"github.com/goreleaser/goreleaser/v2/pkg/context"
+	"github.com/dnonakolesax/goreleaser/v2/internal/skips"
+	"github.com/dnonakolesax/goreleaser/v2/pkg/config"
+	"github.com/dnonakolesax/goreleaser/v2/pkg/context"
 )
 
 // Opt is an option for a test context.
@@ -27,6 +27,11 @@ func GitLabTokenType(ctx *context.Context) {
 func GiteaTokenType(ctx *context.Context) {
 	WithTokenType(context.TokenTypeGitea)(ctx)
 	WithToken("giteatoken")(ctx)
+}
+
+func GitVerseTokenType(ctx *context.Context) {
+	WithTokenType(context.TokenTypeGitVerse)(ctx)
+	WithToken("gitversetoken")(ctx)
 }
 
 func WithTokenType(t context.TokenType) Opt {

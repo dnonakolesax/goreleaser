@@ -11,7 +11,7 @@ import (
 
 	retry "github.com/avast/retry-go/v4"
 	"github.com/caarlos0/log"
-	"github.com/goreleaser/goreleaser/v2/pkg/config"
+	"github.com/dnonakolesax/goreleaser/v2/pkg/config"
 )
 
 // HTTPError carries an HTTP status code alongside the original error.

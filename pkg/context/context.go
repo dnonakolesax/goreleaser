@@ -14,8 +14,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/goreleaser/goreleaser/v2/internal/artifact"
-	"github.com/goreleaser/goreleaser/v2/pkg/config"
+	"github.com/dnonakolesax/goreleaser/v2/internal/artifact"
+	"github.com/dnonakolesax/goreleaser/v2/pkg/config"
 )
 
 // GitInfo includes tags and diffs used in some point.
@@ -56,7 +56,7 @@ func (e Env) Strings() []string {
 	return result
 }
 
-// TokenType is either github or gitlab.
+// TokenType is the SCM token type.
 type TokenType string
 
 const (
@@ -66,6 +66,8 @@ const (
 	TokenTypeGitLab TokenType = "gitlab"
 	// TokenTypeGitea defines gitea as type of the token.
 	TokenTypeGitea TokenType = "gitea"
+	// TokenTypeGitVerse defines gitverse as type of the token.
+	TokenTypeGitVerse TokenType = "gitverse"
 )
 
 type Action uint8

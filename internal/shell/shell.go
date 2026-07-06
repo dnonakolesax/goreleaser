@@ -9,11 +9,11 @@ import (
 	"time"
 
 	"github.com/caarlos0/log"
-	"github.com/goreleaser/goreleaser/v2/internal/gerrors"
-	"github.com/goreleaser/goreleaser/v2/internal/gio"
-	"github.com/goreleaser/goreleaser/v2/internal/logext"
-	"github.com/goreleaser/goreleaser/v2/internal/redact"
-	"github.com/goreleaser/goreleaser/v2/pkg/context"
+	"github.com/dnonakolesax/goreleaser/v2/internal/gerrors"
+	"github.com/dnonakolesax/goreleaser/v2/internal/gio"
+	"github.com/dnonakolesax/goreleaser/v2/internal/logext"
+	"github.com/dnonakolesax/goreleaser/v2/internal/redact"
+	"github.com/dnonakolesax/goreleaser/v2/pkg/context"
 )
 
 // Run a shell command with given arguments and envs

@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/goreleaser/goreleaser/v2/internal/testlib"
+	"github.com/dnonakolesax/goreleaser/v2/internal/testlib"
 	"github.com/stretchr/testify/require"
 )
 

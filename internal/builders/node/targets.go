@@ -5,8 +5,8 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/goreleaser/goreleaser/v2/internal/tmpl"
-	api "github.com/goreleaser/goreleaser/v2/pkg/build"
+	"github.com/dnonakolesax/goreleaser/v2/internal/tmpl"
+	api "github.com/dnonakolesax/goreleaser/v2/pkg/build"
 )
 
 // supportedTargets is the canonical list of nodejs.org/dist target

@@ -3,8 +3,8 @@ package git_test
 import (
 	"testing"
 
-	"github.com/goreleaser/goreleaser/v2/internal/git"
-	"github.com/goreleaser/goreleaser/v2/internal/testlib"
+	"github.com/dnonakolesax/goreleaser/v2/internal/git"
+	"github.com/dnonakolesax/goreleaser/v2/internal/testlib"
 	"github.com/stretchr/testify/require"
 )
 

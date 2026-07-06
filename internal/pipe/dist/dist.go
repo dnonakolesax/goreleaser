@@ -7,7 +7,7 @@ import (
 	"os"
 
 	"github.com/caarlos0/log"
-	"github.com/goreleaser/goreleaser/v2/pkg/context"
+	"github.com/dnonakolesax/goreleaser/v2/pkg/context"
 )
 
 // CleanPipe cleans the distribution directory.

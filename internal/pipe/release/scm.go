@@ -3,8 +3,8 @@ package release
 import (
 	"fmt"
 
-	"github.com/goreleaser/goreleaser/v2/internal/tmpl"
-	"github.com/goreleaser/goreleaser/v2/pkg/context"
+	"github.com/dnonakolesax/goreleaser/v2/internal/tmpl"
+	"github.com/dnonakolesax/goreleaser/v2/pkg/context"
 )
 
 func setupGitHub(ctx *context.Context) error {
@@ -82,6 +82,33 @@ func setupGitea(ctx *context.Context) error {
 		ctx.Config.GiteaURLs.Download,
 		ctx.Config.Release.Gitea.Owner,
 		ctx.Config.Release.Gitea.Name,
+		ctx.Git.CurrentTag,
+	))
+	ctx.ReleaseURL = url
+	return err
+}
+
+func setupGitVerse(ctx *context.Context) error {
+	if ctx.Config.Release.GitVerse.Name == "" {
+		repo, err := getRepository(ctx)
+		if err != nil {
+			return err
+		}
+		ctx.Config.Release.GitVerse = repo
+	}
+
+	if err := tmpl.New(ctx).ApplyAll(
+		&ctx.Config.Release.GitVerse.Name,
+		&ctx.Config.Release.GitVerse.Owner,
+	); err != nil {
+		return err
+	}
+
+	url, err := tmpl.New(ctx).Apply(fmt.Sprintf(
+		"%s/%s/%s/releases/tag/%s",
+		ctx.Config.GitVerseURLs.Download,
+		ctx.Config.Release.GitVerse.Owner,
+		ctx.Config.Release.GitVerse.Name,
 		ctx.Git.CurrentTag,
 	))
 	ctx.ReleaseURL = url

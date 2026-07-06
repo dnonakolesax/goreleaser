@@ -5,17 +5,17 @@ import (
 	"os"
 	"testing"
 
-	"github.com/goreleaser/goreleaser/v2/internal/skips"
-	"github.com/goreleaser/goreleaser/v2/internal/testctx"
-	"github.com/goreleaser/goreleaser/v2/internal/testlib"
-	"github.com/goreleaser/goreleaser/v2/pkg/config"
-	"github.com/goreleaser/goreleaser/v2/pkg/context"
+	"github.com/dnonakolesax/goreleaser/v2/internal/skips"
+	"github.com/dnonakolesax/goreleaser/v2/internal/testctx"
+	"github.com/dnonakolesax/goreleaser/v2/internal/testlib"
+	"github.com/dnonakolesax/goreleaser/v2/pkg/config"
+	"github.com/dnonakolesax/goreleaser/v2/pkg/context"
 	"github.com/stretchr/testify/require"
 )
 
 func TestMain(m *testing.M) {
 	restores := map[string]string{}
-	for _, key := range []string{"GITHUB_TOKEN", "GITEA_TOKEN", "GITLAB_TOKEN"} {
+	for _, key := range []string{"GITHUB_TOKEN", "GITEA_TOKEN", "GITLAB_TOKEN", "GITVERSE_TOKEN"} {
 		prevValue, ok := os.LookupEnv(key)
 		if ok {
 			_ = os.Unsetenv(key)
@@ -41,6 +41,7 @@ func TestSetDefaultTokenFiles(t *testing.T) {
 		require.Equal(t, "~/.config/goreleaser/github_token", ctx.Config.EnvFiles.GitHubToken)
 		require.Equal(t, "~/.config/goreleaser/gitlab_token", ctx.Config.EnvFiles.GitLabToken)
 		require.Equal(t, "~/.config/goreleaser/gitea_token", ctx.Config.EnvFiles.GiteaToken)
+		require.Equal(t, "~/.config/goreleaser/gitverse_token", ctx.Config.EnvFiles.GitVerseToken)
 	})
 	t.Run("custom config config", func(t *testing.T) {
 		cfg := "what"
@@ -110,6 +111,13 @@ func TestForceToken(t *testing.T) {
 		require.NoError(t, Pipe{}.Run(ctx))
 		require.Equal(t, context.TokenTypeGitea, ctx.TokenType)
 	})
+	t.Run("gitverse", func(t *testing.T) {
+		t.Setenv("GITVERSE_TOKEN", "fake")
+		t.Setenv("GORELEASER_FORCE_TOKEN", "gitverse")
+		ctx := testctx.Wrap(t.Context())
+		require.NoError(t, Pipe{}.Run(ctx))
+		require.Equal(t, context.TokenTypeGitVerse, ctx.TokenType)
+	})
 }
 
 func TestValidGithubEnv(t *testing.T) {
@@ -136,6 +144,14 @@ func TestValidGiteaEnv(t *testing.T) {
 	require.Equal(t, context.TokenTypeGitea, ctx.TokenType)
 }
 
+func TestValidGitVerseEnv(t *testing.T) {
+	t.Setenv("GITVERSE_TOKEN", "token")
+	ctx := testctx.Wrap(t.Context())
+	require.NoError(t, Pipe{}.Run(ctx))
+	require.Equal(t, "token", ctx.Token)
+	require.Equal(t, context.TokenTypeGitVerse, ctx.TokenType)
+}
+
 func TestInvalidEnv(t *testing.T) {
 	ctx := testctx.Wrap(t.Context())
 	require.Error(t, Pipe{}.Run(ctx))
@@ -146,18 +162,20 @@ func TestMultipleEnvTokens(t *testing.T) {
 	t.Setenv("GITHUB_TOKEN", "asdf")
 	t.Setenv("GITLAB_TOKEN", "qwertz")
 	t.Setenv("GITEA_TOKEN", "token")
+	t.Setenv("GITVERSE_TOKEN", "token")
 	ctx := testctx.Wrap(t.Context())
 	require.Error(t, Pipe{}.Run(ctx))
-	require.EqualError(t, Pipe{}.Run(ctx), "multiple tokens found, but only one is allowed: GITHUB_TOKEN, GITLAB_TOKEN, GITEA_TOKEN\n\nLearn more at https://goreleaser.com/errors/multiple-tokens\n")
+	require.EqualError(t, Pipe{}.Run(ctx), "multiple tokens found, but only one is allowed: GITHUB_TOKEN, GITLAB_TOKEN, GITEA_TOKEN, GITVERSE_TOKEN\n\nLearn more at https://goreleaser.com/errors/multiple-tokens\n")
 }
 
 func TestMultipleEnvTokensForce(t *testing.T) {
 	t.Setenv("GITHUB_TOKEN", "asdf")
 	t.Setenv("GITLAB_TOKEN", "qwertz")
 	t.Setenv("GITEA_TOKEN", "token")
+	t.Setenv("GITVERSE_TOKEN", "token")
 	ctx := testctx.Wrap(t.Context())
 	require.Error(t, Pipe{}.Run(ctx))
-	require.EqualError(t, Pipe{}.Run(ctx), "multiple tokens found, but only one is allowed: GITHUB_TOKEN, GITLAB_TOKEN, GITEA_TOKEN\n\nLearn more at https://goreleaser.com/errors/multiple-tokens\n")
+	require.EqualError(t, Pipe{}.Run(ctx), "multiple tokens found, but only one is allowed: GITHUB_TOKEN, GITLAB_TOKEN, GITEA_TOKEN, GITVERSE_TOKEN\n\nLearn more at https://goreleaser.com/errors/multiple-tokens\n")
 }
 
 func TestEmptyGithubFileEnv(t *testing.T) {
